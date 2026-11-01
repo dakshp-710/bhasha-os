@@ -148,7 +148,7 @@
     // Detect server host: if on localhost use relative path, else try local bridge
     const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
       ? ''
-      : 'http://localhost:8000';
+      : 'http://localhost:8080';
 
     async function toggleRecording() {
       const btn = document.getElementById('micBtn');

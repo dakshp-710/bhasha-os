@@ -79,9 +79,15 @@ class BhashaHandler(SimpleHTTPRequestHandler):
         self.send_header("Access-Control-Allow-Headers", "Content-Type")
         super().end_headers()
 
-    def do_OPTIONS(self):
-        self.send_response(200)
-        self.end_headers()
+    def do_GET(self):
+        if self.path == "/" or self.path == "/index.html":
+            self.send_response(200)
+            self.send_header("Content-Type", "text/html; charset=utf-8")
+            self.end_headers()
+            with open("index.html", "rb") as f:
+                self.wfile.write(f.read())
+        else:
+            super().do_GET()
 
     def do_POST(self):
         if self.path == "/api/command-audio":
@@ -138,7 +144,7 @@ class BhashaHandler(SimpleHTTPRequestHandler):
         self.wfile.write(json.dumps(resp).encode())
 
 if __name__ == "__main__":
-    PORT = 8000
+    PORT = 8080
     server = HTTPServer(("0.0.0.0", PORT), BhashaHandler)
     print(f"🚀 BhashaOS Web Interface running at: http://localhost:{PORT}")
     server.serve_forever()
